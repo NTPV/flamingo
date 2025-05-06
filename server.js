@@ -1,7 +1,6 @@
 const WebSocket = require('ws');
 const http = require('http');
 
-// Создаем HTTP-сервер
 const server = http.createServer();
 const wss = new WebSocket.Server({ server });
 
@@ -13,7 +12,7 @@ wss.on('connection', (socket) => {
         // Отправляем сообщение всем подключенным клиентам
         wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(message.toString()); // Убедитесь, что отправляется строка
+                client.send(message.toString());
             }
         });
     });
@@ -23,8 +22,8 @@ wss.on('connection', (socket) => {
     });
 });
 
-// Используем порт 8080
-const PORT = 8080;
+// Используем порт, предоставленный Render
+const PORT = process.env.PORT || 8080; // Измените это
 server.listen(PORT, () => {
     console.log(`WebSocket server is running on ws://localhost:${PORT}`);
 });
