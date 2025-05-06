@@ -10,6 +10,7 @@
     <ul id="messages"></ul>
 
     <script>
+        // Измененная строка для подключения к WebSocket
         const socket = new WebSocket(`ws://${window.location.host}`);
 
         socket.onopen = function() {
@@ -17,18 +18,17 @@
         };
 
         socket.onmessage = function(event) {
-            // Убедимся, что мы получаем текстовое сообщение
-            const message = event.data; // Это должно быть текстовое сообщение
+            const message = event.data;
             const item = document.createElement('li');
-            item.textContent = message; // Устанавливаем текстовое содержимое
+            item.textContent = message;
             document.getElementById('messages').appendChild(item);
         };
 
         function sendMessage() {
             const message = document.getElementById('message').value;
             if (message) {
-                socket.send(message); // Отправляем текстовое сообщение
-                document.getElementById('message').value = ''; // Очищаем поле ввода
+                socket.send(message);
+                document.getElementById('message').value = '';
             }
         }
 
