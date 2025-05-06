@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <input id="message" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+    <ul id="messages"></ul>
+
+    <script>
+        const socket = new WebSocket('ws://localhost:8080');
+
+        socket.onopen = function() {
+            console.log('Connected to the server');
+        };
+
+        socket.onmessage = function(event) {
+            // Убедимся, что мы получаем текстовое сообщение
+            const message = event.data; // Это должно быть текстовое сообщение
+            const item = document.createElement('li');
+            item.textContent = message; // Устанавливаем текстовое содержимое
+            document.getElementById('messages').appendChild(item);
+        };
+
+        function sendMessage() {
+            const message = document.getElementById('message').value;
+            if (message) {
+                socket.send(message); // Отправляем текстовое сообщение
+                document.getElementById('message').value = ''; // Очищаем поле ввода
+            }
+        }
+
+        socket.onclose = function() {
+            console.log('Disconnected from the server');
+        };
+    </script>
+</body>
+</html>
